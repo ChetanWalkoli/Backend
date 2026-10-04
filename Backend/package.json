@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ChetanWalkoli/Backend#readme",
   "dependencies": {
     "@imagekit/nodejs": "^7.12.1",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "mongoose": "^9.10.3",
