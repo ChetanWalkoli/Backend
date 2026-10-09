@@ -1,0 +1,9 @@
+$kind: collection
+name: Auth API
+description: |-
+  Collection for the Auth API built with Express.js, Mongoose, and JWT.
+  Server runs on http://localhost:3000.
+variables:
+  - key: base_url
+    value: 'http://localhost:3000'
+    description: Base URL for the Auth API server
