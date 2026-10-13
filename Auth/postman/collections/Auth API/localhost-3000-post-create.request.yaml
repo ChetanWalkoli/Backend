@@ -1,0 +1,15 @@
+$kind: http-request
+name: localhost:3000/post/create
+description: ""
+url: localhost:3000/post/create
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"image\" : \"kuch image\",\r
+
+    \    \"caption\" : \"test_caption\"\r
+
+    }"
+order: 2127260962871233
