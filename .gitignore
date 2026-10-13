@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Environment secrets
+.env
+.env.*
+
+# Allow an example environment template
+!.env.example
