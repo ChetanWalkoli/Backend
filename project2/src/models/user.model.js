@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    username : {
+    username: {
         type: String,
         required: true,
         unique: true
@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.models.User || mongoose.model('User', userSchema);
+
+// Fallback alias so 'user' (lowercase) also works with populate refs
+if (!mongoose.models.user) {
+    mongoose.model('user', userSchema);
+}
 
 module.exports = userModel;

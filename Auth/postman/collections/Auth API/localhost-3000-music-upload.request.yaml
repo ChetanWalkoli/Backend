@@ -1,0 +1,24 @@
+$kind: http-request
+name: 'localhost:3000/music/upload'
+description: 'Upload music. Requires authentication - send the register request first to set the token cookie.'
+url: 'http://localhost:3000/music/upload'
+method: POST
+body:
+  type: formdata
+  content:
+    - key: title
+      type: text
+      value: 'My First Song'
+    - key: artist
+      type: text
+      value: chetan
+    - key: genre
+      type: text
+      value: fev
+    - key: releaseDate
+      type: text
+      value: '2026-10-13'
+    - key: file
+      type: file
+      src: 'C:/Users/Chetan/Music/vidssave.com O Rangrez (From _Bhaag Milkha Bhaag_) 256KBPS.webm'
+order: 3000000000000000

@@ -6,6 +6,12 @@ const registerUser = async (req, res) => {
     try {
         const { username, email, password, role = 'user' } = req.body;
 
+        if (!username || !email || !password) {
+            return res.status(400).json({
+                message: 'Username, email, and password are required'
+            });
+        }
+
         const isUserExists = await userModel.findOne({
             $or: [
                 { username },
@@ -38,7 +44,10 @@ const registerUser = async (req, res) => {
             process.env.JWT_SECRET
         );
 
-        res.cookie('token', token);
+        res.cookie('token', token, {
+            httpOnly: false,
+            sameSite: 'lax'
+        });
 
         return res.status(201).json({
             message: 'User registered successfully',
@@ -63,19 +72,27 @@ const registerUser = async (req, res) => {
 async function loginUser(req, res) {
     try {
         const { username, email, password } = req.body;
+        const identifier = username || email;
+
+        if (!identifier || !password) {
+            return res.status(400).json({
+                message: 'Username/email and password are required'
+            });
+        }
 
         const user = await userModel.findOne({
             $or: [
-                { username },
-                { email }
+                { username: identifier },
+                { email: identifier }
             ]
         });
 
         if (!user) {
             return res.status(404).json({
                 message: 'User not found'
-            })
+            });
         }
+
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
@@ -92,9 +109,12 @@ async function loginUser(req, res) {
             process.env.JWT_SECRET
         );
 
-        res.cookie('token', token);
+        res.cookie('token', token, {
+            httpOnly: false,
+            sameSite: 'lax'
+        });
 
-        res.status(200).json({
+        return res.status(200).json({
             message: 'Login successful',
             user: {
                 id: user._id,
@@ -103,7 +123,7 @@ async function loginUser(req, res) {
                 role: user.role
             },
             token
-        })
+        });
     } catch (error) {
         console.error('Login error:', error);
 
@@ -113,7 +133,15 @@ async function loginUser(req, res) {
     }
 }
 
+async function logoutUser(req, res) {
+    res.clearCookie('token');
+    return res.status(200).json({
+        message: 'Logout successful'
+    });
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 };
